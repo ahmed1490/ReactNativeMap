@@ -4,15 +4,16 @@ const {
   StyleSheet,
   Text
 } = React;
+import GeoInfo from './components/GeoInfo'
 
-const Map = React.createClass({
+const App = React.createClass({
 
   getInitialState() {
     return {};
   },
 
   render() {
-    return (<Text>Hello world</Text>);
+    return (<GeoInfo />);
   },
 
 });
@@ -20,4 +21,4 @@ const Map = React.createClass({
 const styles = StyleSheet.create({
 });
 
-export default Map;
+export default App;
