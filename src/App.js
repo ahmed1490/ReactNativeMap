@@ -1,22 +1,26 @@
 import React from 'react-native';
+
 const {
   View,
   StyleSheet,
   Text
 } = React;
-import GeoInfo from './components/GeoInfo';
-import MapBlock from './components/MapBlock';
+
+// import GeoInfo from './components/map/GeoInfo';
+import MapBlock from './components/map/MapBlock';
+import ActionCard from './components/ActionCard';
 
 const App = React.createClass({
 
   getInitialState() {
-    return {};
+    return null;
   },
 
   render() {
     return (
       <View style={styles.container}>
         <MapBlock />
+        <ActionCard />
       </View>
     );
   },
