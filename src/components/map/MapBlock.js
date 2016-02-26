@@ -29,6 +29,7 @@ const MapBlock = React.createClass({
   },
 
   loadInitialPosition() {
+    // https://github.com/facebook/react-native/commit/13f2aea85f8db9eec3bd42b66f9dc868e0d5a24e
     navigator.geolocation.getCurrentPosition(
       (pos) => this.setInitialPosition(pos),
       (error) => console.error(error)
@@ -49,8 +50,6 @@ const MapBlock = React.createClass({
         longitude: coords.longitude
       },
     });
-
-    console.log(this.state.startMarker, this.state.region, 'dsa')
   },
 
   render() {

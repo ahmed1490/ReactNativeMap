@@ -3,27 +3,40 @@ import React from 'react-native';
 const {
   View,
   StyleSheet,
-  Text
+  Text,
+  Button
 } = React;
+
+import Modal from 'react-native-modalbox';
 
 // import GeoInfo from './components/map/GeoInfo';
 import MapBlock from './components/map/MapBlock';
 import ActionCard from './components/ActionCard';
+import PlacesCard from './components/PlacesCard';
 
 const App = React.createClass({
 
   getInitialState() {
-    return null;
+    return {
+      isPlacesCardOpen: false
+    };
   },
 
   render() {
     return (
       <View style={styles.container}>
         <MapBlock />
-        <ActionCard />
+        <ActionCard onPrimaryLocationClick={this._openPlacesCard} />
+        <PlacesCard isCardOpen={this.state.isPlacesCardOpen} />
       </View>
     );
   },
+
+  _openPlacesCard() {
+    this.setState({
+      isPlacesCardOpen: true
+    });
+  }
 
 });
 
@@ -36,7 +49,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'flex-end',
     alignItems: 'center',
-  },
+  }
 });
 
 export default App;

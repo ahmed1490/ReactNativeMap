@@ -32,7 +32,7 @@ const ActionCard = React.createClass({
         <Button
           containerStyle={[styles.button]}
           styleDisabled={{color: 'grey'}}
-          onPress={this._handlePress}
+          onPress={this.props.onPrimaryLocationClick}
         >
           <Icon name="ios-location-outline" size={24} style={[styles.button_image]} />
           <View style={[styles.button_row]}>
