@@ -4,7 +4,7 @@ const {
   View,
   StyleSheet,
   Text,
-  Button
+  PixelRatio
 } = React;
 
 import Modal from 'react-native-modalbox';
@@ -14,11 +14,16 @@ import MapBlock from './components/map/MapBlock';
 import ActionCard from './components/ActionCard';
 import PlacesCard from './components/PlacesCard';
 
+import Button from 'react-native-button';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+
 const App = React.createClass({
 
   getInitialState() {
     return {
-      isPlacesCardOpen: false
+      isPlacesCardOpen: false,
+      isActionCardHidden: true
     };
   },
 
@@ -26,13 +31,16 @@ const App = React.createClass({
     return (
       <View style={styles.container}>
         <MapBlock />
-        <ActionCard onPrimaryLocationClick={this._openPlacesCard} />
+        <Button containerStyle={styles.locationIcon}>
+          <Icon name="navigate" size={18} color='#0092DA' style={{width:20, marginTop: 2}} />
+        </Button>
+        <ActionCard onPrimaryLocationClick={this.openPlacesCard} />
         <PlacesCard isCardOpen={this.state.isPlacesCardOpen} />
       </View>
     );
   },
 
-  _openPlacesCard() {
+  openPlacesCard() {
     this.setState({
       isPlacesCardOpen: true
     });
@@ -49,6 +57,16 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+
+  locationIcon: {
+    position: 'absolute',
+    right: 10,
+    backgroundColor: '#fff',
+    borderWidth: 1 / PixelRatio.get(),
+    borderColor: '#E9E9EA',
+    bottom: 170,
+    padding: 10
   }
 });
 
