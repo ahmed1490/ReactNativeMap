@@ -140,7 +140,8 @@ var ModalBox = React.createClass({
       this.state.backdropOpacity,
       {
         toValue: 0,
-        duration: this.props.animationDuration
+        duration: this.props.animationDuration,
+        easing: Easing.elastic(0.8)
       }
     );
     this.state.animBackdrop.start(() => {

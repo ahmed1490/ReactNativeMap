@@ -9,6 +9,7 @@ const {
 } = React;
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import BackdropContent from './action_card/BackdropContent';
 
 const ActionCard = React.createClass({
 
@@ -24,7 +25,6 @@ const ActionCard = React.createClass({
     // this.setState({height: 300})
     // setTimeout(() => this.setState({height: 0}), 3000);
   },
-
 
   showOptions(event) {
     this.setState({showOptions: true});
@@ -42,7 +42,7 @@ const ActionCard = React.createClass({
     const cardWithOptions = this.state.showOptions ? styles.cardWithOptions: '';
     const optionButtonVisibleStyle = this.state.showOptions ? styles.hidden : '';
     const optionsVisibleStyle = this.state.showOptions ? '' : styles.hidden;
-    const BContent = <Button onPress={this.hideOptions} style={[styles.backBtn]}>&lt;</Button>;
+    const BContent = <BackdropContent onBackClick={this.hideOptions} />
 
     return (
       <Modal style={[styles.modal, styles.card, cardWithOptions]} isOpen={true}
@@ -118,25 +118,18 @@ const ActionCard = React.createClass({
 });
 
 const styles = StyleSheet.create({
-
   modal: {
-    // flexDirection: 'column',
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
 
   card: {
     height: 160,
-    // backgroundColor: "#3B5998",
-    // alignItems: 'stretch',
   },
 
   cardWithOptions: {
     height: 260,
   },
 
-  vertical_center: {
-    //vertical center the content inside
+  vertical_center: { //vertical center the content inside
     flexDirection: 'column',
     justifyContent: 'center',
   },
@@ -187,18 +180,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center',
     alignSelf: 'center'
-  },
-
-  backBtn: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: 50,
-    height: 50,
-    // backgroundColor: "transparent"
-    margin: 10,
-    color: "white",
-    padding: 10
   }
 });
 
