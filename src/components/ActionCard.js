@@ -1,5 +1,5 @@
 import React from 'react-native';
-import Modal from '../libs/react-native-modalbox';
+import Modal from './libs/react-native-modalbox';
 import Button from 'react-native-button';
 const {
   Text,
@@ -59,7 +59,7 @@ class ActionCard extends React.Component {
 
     console.log('actioncard')
     return (
-      <Modal style={[styles.card, cardWithOptions]} ref={"actionCard"}
+      <Modal style={[styles.card, cardWithOptions, {opacity: this.props.cardPartialHide}]} ref={"actionCard"}
         isOpen={true} position={"bottom"} animationDuration={200}
         backdrop={this.state.showMoreOptions} backdropPressToClose={false} backdropContent={BContent}
         onBackdropPress={this._hideMoreOptions.bind(this)}>

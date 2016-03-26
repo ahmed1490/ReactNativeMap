@@ -1,5 +1,5 @@
 import React from 'react-native';
-import Modal from '../libs/react-native-modalbox';
+import Modal from './libs/react-native-modalbox';
 const {
   Text,
   StyleSheet,

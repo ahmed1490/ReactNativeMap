@@ -8,17 +8,17 @@ const {
   Animated
 } = React;
 
-import Modal from 'react-native-modalbox';
+import Modal from '../components/libs/react-native-modalbox';
 
-// import GeoInfo from './components/map/GeoInfo';
-import MapBlock from './components/map/MapBlock';
-import ActionCard from './components/ActionCard';
-import PlacesCard from './components/PlacesCard';
+// import GeoInfo from '../components/map/GeoInfo';
+import MapBlock from '../components/map/MapBlock';
+import ActionCard from '../components/ActionCard';
+import PlacesCard from '../components/PlacesCard';
 
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-class App extends React.Component {
+class Home extends React.Component {
 
   state = { 
     isPlacesCardOpen: false,
@@ -27,7 +27,7 @@ class App extends React.Component {
   };
 
   render() {
-    console.log('app')
+    console.log('Home')
     return (
       <View style={styles.container}>
         <MapBlock _onMapRegionChange={this._setMapRegionChanging.bind(this)} />
@@ -91,4 +91,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+export default Home;
