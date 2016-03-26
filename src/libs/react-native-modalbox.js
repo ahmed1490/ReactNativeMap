@@ -140,7 +140,7 @@ var ModalBox = React.createClass({
       this.state.backdropOpacity,
       {
         toValue: 0,
-        duration: this.props.animationDuration,
+        duration: this.props.animationDuration*20,
         easing: Easing.elastic(0.8)
       }
     );
@@ -173,12 +173,12 @@ var ModalBox = React.createClass({
     this.state.positionDest = this.calculateModalPosition(this.state.containerHeight, this.state.containerWidth);
 
     this.state.isAnimateOpen = true;
-    this.state.animOpen = Animated.timing(
+    this.state.animOpen = Animated.spring(
       this.state.position,
       {
         toValue: this.state.positionDest,
-        duration: this.props.animationDuration,
-        easing: Easing.elastic(0.8)
+        friction: 7,
+        // timing: this.props.animationDuration*10
       }
     );
     this.state.animOpen.start(() => {
@@ -209,11 +209,12 @@ var ModalBox = React.createClass({
       this.animateBackdropClose();
 
     this.state.isAnimateClose = true;
-    this.state.animClose = Animated.timing(
+    this.state.animClose = Animated.spring(
       this.state.position,
       {
         toValue: this.state.containerHeight,
-        duration: this.props.animationDuration
+        friction: 7,
+        // timing: this.props.animationDuration*10
       }
     );
     this.state.animClose.start(() => {
@@ -302,6 +303,7 @@ var ModalBox = React.createClass({
    * Event called when the container view layout is calculated
    */
   onContainerLayout: function(evt) {
+    console.log('layout---')
     var height = evt.nativeEvent.layout.height;
     var width = evt.nativeEvent.layout.width;
 
@@ -370,6 +372,7 @@ var ModalBox = React.createClass({
 
     if (!visible) return <View/>
 
+    console.log('render')
     return (
       <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
         {backdrop}

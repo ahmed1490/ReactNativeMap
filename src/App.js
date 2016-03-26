@@ -4,7 +4,8 @@ const {
   View,
   StyleSheet,
   Text,
-  PixelRatio
+  PixelRatio,
+  Animated
 } = React;
 
 import Modal from 'react-native-modalbox';
@@ -17,36 +18,56 @@ import PlacesCard from './components/PlacesCard';
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+class App extends React.Component {
 
-const App = React.createClass({
-
-  getInitialState() {
-    return {
-      isPlacesCardOpen: false,
-      isActionCardHidden: true
-    };
-  },
+  state = { 
+    isPlacesCardOpen: false,
+    isMapRegionChanging: false,
+    cardPartialHide: new Animated.Value(1)
+  };
 
   render() {
+    console.log('app')
     return (
       <View style={styles.container}>
-        <MapBlock />
+        <MapBlock _onMapRegionChange={this._setMapRegionChanging.bind(this)} />
+
         <Button containerStyle={styles.locationIcon}>
           <Icon name="navigate" size={18} color='#0092DA' style={{width:20, marginTop: 2}} />
         </Button>
-        <ActionCard onPrimaryLocationClick={this.openPlacesCard} />
-        <PlacesCard isCardOpen={this.state.isPlacesCardOpen} />
+
+        <ActionCard
+          cardPartialHide={this.state.cardPartialHide}
+          onPrimaryLocationClick={this._openPlacesCard.bind(this)}
+        />
+        <PlacesCard
+          isCardOpen={this.state.isPlacesCardOpen}
+        />
       </View>
     );
-  },
-
-  openPlacesCard() {
-    this.setState({
-      isPlacesCardOpen: true
-    });
   }
 
-});
+  _setMapRegionChanging(isMoving) {
+    if( this.state.isMapRegionChanging === isMoving )
+      return;
+
+    this.setState({ isMapRegionChanging: isMoving });
+
+    Animated.spring(
+      this.state.cardPartialHide,
+      {
+        toValue: isMoving ? 0 : 1,
+        friction: 7
+      }
+    ).start();
+    console.log('isMoving', isMoving)
+  }
+
+  _openPlacesCard() {
+    this.setState({ isPlacesCardOpen: true });
+  }
+
+};
 
 const styles = StyleSheet.create({
   container: {

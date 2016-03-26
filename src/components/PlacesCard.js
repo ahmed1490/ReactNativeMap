@@ -22,6 +22,7 @@ const PlacesCard = React.createClass({
   },
 
   render: function() {
+    console.log('places--', this.props.isCardOpen)
     return (
       <Modal style={[styles.modal, styles.autocomplete]}
         backdrop={true}

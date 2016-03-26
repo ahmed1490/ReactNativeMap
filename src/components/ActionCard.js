@@ -5,50 +5,64 @@ const {
   Text,
   StyleSheet,
   View,
-  PixelRatio
+  PixelRatio,
+  PropTypes,
+  Animated
 } = React;
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import BackdropContent from './action_card/BackdropContent';
 
-const ActionCard = React.createClass({
+const cardSizeClass = {
 
-  getInitialState: function() {
-    return {
-      showOptions: false
-    };
-  },
+}
+
+class ActionCard extends React.Component {
+
+  static propTypes = {
+    cardPartialHide: PropTypes.object,
+    onPrimaryLocationClick: PropTypes.func
+  };
+  static defaultProps = {
+  };
+  state = { 
+    showMoreOptions: false
+  };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.showMoreOptions !== nextState.showMoreOptions ;
+  }
 
   componentDidMount() {
-    // this.refs.card.open()
-    // setTimeout(() => this.refs.card.open(), 400);
-    // this.setState({height: 300})
-    // setTimeout(() => this.setState({height: 0}), 3000);
-  },
+    // setTimeout(() => this.refs.actionCard.open(), 1000);
+  }
 
-  showOptions(event) {
-    this.setState({showOptions: true});
-  },
+  _showMoreOptions(event) {
+    console.log('showmore options')
+    this.setState({showMoreOptions: true});
+  }
 
-  hideOptions(event) {
-    this.setState({showOptions: false});
-  },
+  _hideMoreOptions(event) {
+    this.setState({showMoreOptions: false});
+  }
 
   _handlePress(event) {
     console.log('Pressed!');
-  },
+  }
 
-  render: function() {
-    const cardWithOptions = this.state.showOptions ? styles.cardWithOptions: '';
-    const optionButtonVisibleStyle = this.state.showOptions ? styles.hidden : '';
-    const optionsVisibleStyle = this.state.showOptions ? '' : styles.hidden;
-    const BContent = <BackdropContent onBackClick={this.hideOptions} />
+  render() {
+    const cardWithOptions = this.state.showMoreOptions ? styles.cardWithOptions: '';
+    const optionButtonVisibleStyle = this.state.showMoreOptions ? styles.hidden : '';
+    const optionsVisibleStyle = this.state.showMoreOptions ? '' : styles.hidden;
 
+    const BContent = <BackdropContent onBackClick={this._hideMoreOptions.bind(this)} />
+
+    console.log('actioncard')
     return (
-      <Modal style={[styles.modal, styles.card, cardWithOptions]} isOpen={true}
-        position={"bottom"} ref={"card"} animationDuration={200}
-        backdrop={this.state.showOptions} backdropPressToClose={false} backdropContent={BContent}
-        onBackdropPress={this.hideOptions}>
+      <Modal style={[styles.card, cardWithOptions]} ref={"actionCard"}
+        isOpen={true} position={"bottom"} animationDuration={200}
+        backdrop={this.state.showMoreOptions} backdropPressToClose={false} backdropContent={BContent}
+        onBackdropPress={this._hideMoreOptions.bind(this)}>
 
         <Button
           containerStyle={[]}
@@ -64,7 +78,7 @@ const ActionCard = React.createClass({
         <Button
           containerStyle={[optionButtonVisibleStyle]}
           styleDisabled={{color: 'grey'}}
-          onPress={this.showOptions}
+          onPress={this._showMoreOptions.bind(this)}
         >
           <Icon name="ios-gear-outline" size={24} style={[styles.button_image]} />
           <View style={[styles.button_label, styles.vertical_center]}>
@@ -114,15 +128,12 @@ const ActionCard = React.createClass({
 
       </Modal>
     );
-  },
-});
+  }
+};
 
 const styles = StyleSheet.create({
-  modal: {
-  },
-
   card: {
-    height: 160,
+    height: 160
   },
 
   cardWithOptions: {
