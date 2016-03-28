@@ -22,7 +22,7 @@ const PlacesCard = React.createClass({
   },
 
   render: function() {
-    console.log('places--', this.props.isCardOpen)
+    // console.log('places--', this.props.isCardOpen)
     return (
       <Modal style={[styles.modal, styles.autocomplete]}
         backdrop={true}
@@ -34,6 +34,7 @@ const PlacesCard = React.createClass({
           placeholder='Search'
           minLength={2} // minimum length of text to search
           autoFocus={false}
+
           fetchDetails={true}
           onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
             console.log(data);
@@ -42,12 +43,7 @@ const PlacesCard = React.createClass({
           getDefaultValue={() => {
             return ''; // text input default value
           }}
-          query={{
-            // available options: https://developers.google.com/places/web-service/autocomplete
-            key: 'AIzaSyDcZ8pJTamDfX5ep8N2ctrXbKwGHcGle74',
-            language: 'en', // language of the results
-            types: '(cities)', // default: 'geocode'
-          }}
+
           styles={{
             description: {
               fontWeight: 'bold',
@@ -57,24 +53,28 @@ const PlacesCard = React.createClass({
             },
           }}
 
+          query={{
+            // available options: https://developers.google.com/places/web-service/autocomplete
+            key: 'AIzaSyDcZ8pJTamDfX5ep8N2ctrXbKwGHcGle74',
+            language: 'en', // language of the results
+            // types: '(cities)', // default: 'geocode'
+          }}
+
           currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
           currentLocationLabel="Current location"
-          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+          predefinedPlaces={[this.state.homePlace, this.state.workPlace]}
+          predefinedPlacesAlwaysVisible={true}
+
+          nearbyPlacesAPI='GoogleReverseGeocoding' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
           GoogleReverseGeocodingQuery={{
             // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+            //https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingRequests
+              // componentRestrictions: {
+              //   country: 'FF'
+              // }
           }}
-          GooglePlacesSearchQuery={{
-            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-            rankby: 'distance',
-            types: 'food',
-          }}
 
-
-          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-
-          predefinedPlaces={[this.state.homePlace, this.state.workPlace]}
-
-          predefinedPlacesAlwaysVisible={true}
+          filterReverseGeocodingByTypes={['sublocality','locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities          
         />
       </Modal>
     );

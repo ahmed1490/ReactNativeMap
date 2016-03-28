@@ -8,28 +8,28 @@ import {
 // currentUser: {...}
 
 const initialState = {
-	isAuthenticated: true,
-	isFetching: false,
-	user: {
-		username: "gonzalo",
-		uid: 12312131231,
-		profilePicture: "http://....",
-		fullname: "Gonzalo F. Buszmicz"
-	},
-	errorMessage: ""
+  isAuthenticated: true,
+  isFetching: false,
+  user: {
+    username: "gonzalo",
+    uid: 12312131231,
+    profilePicture: "http://....",
+    fullname: "Gonzalo F. Buszmicz"
+  },
+  errorMessage: ""
 };
 
 export default function currentUser(state = initialState, action) {
   switch (action.type) {
     case LOGIN_REQUEST:
       return {
-      	...state,
-      	isAuthenticated: false,
-      	isFetching: true,
-      	user: {
-      		username: action.creds.username
-      	},
-      	errorMessage: ''
+        ...state,
+        isAuthenticated: false,
+        isFetching: true,
+        user: {
+          username: action.creds.username
+        },
+        errorMessage: ''
       }
     case LOGIN_SUCCESS:
       return state

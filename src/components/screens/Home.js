@@ -8,12 +8,13 @@ const {
   Animated
 } = React;
 
-import Modal from '../components/libs/react-native-modalbox';
+import Modal from '../libs/react-native-modalbox';
 
 // import GeoInfo from '../components/map/GeoInfo';
-import MapBlock from '../components/map/MapBlock';
-import ActionCard from '../components/ActionCard';
-import PlacesCard from '../components/PlacesCard';
+import MapBlock from '../map/MapBlock';
+import MyLocationBtn from '../map/MyLocationBtn';
+import ActionCard from '../actionCard/ActionCard';
+import PlacesCard from '../PlacesCard';
 
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -27,17 +28,19 @@ class Home extends React.Component {
   };
 
   render() {
-    console.log('Home')
+    // console.log('Home', this.props)
     return (
       <View style={styles.container}>
-        <MapBlock _onMapRegionChange={this._setMapRegionChanging.bind(this)} />
+        <MapBlock
+          {...this.props.location}
+          actions={this.props.actions}
+          _onMapRegionChange={this._setMapRegionChanging.bind(this)} />
 
-        <Button containerStyle={styles.locationIcon}>
-          <Icon name="navigate" size={18} color='#0092DA' style={{width:20, marginTop: 2}} />
-        </Button>
+        <MyLocationBtn />
 
         <ActionCard
-          cardPartialHide={this.state.cardPartialHide}
+          actions={this.props.actions}
+          position={this.props.location.isRegionUpdating}
           onPrimaryLocationClick={this._openPlacesCard.bind(this)}
         />
         <PlacesCard
@@ -60,7 +63,7 @@ class Home extends React.Component {
         friction: 7
       }
     ).start();
-    console.log('isMoving', isMoving)
+    // console.log('isMoving', isMoving)
   }
 
   _openPlacesCard() {

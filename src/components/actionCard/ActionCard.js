@@ -1,5 +1,5 @@
 import React from 'react-native';
-import Modal from './libs/react-native-modalbox';
+import Modal from '../libs/react-native-modalbox';
 import Button from 'react-native-button';
 const {
   Text,
@@ -11,7 +11,7 @@ const {
 } = React;
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import BackdropContent from './action_card/BackdropContent';
+import BackdropContent from './BackdropContent';
 
 const cardSizeClass = {
 

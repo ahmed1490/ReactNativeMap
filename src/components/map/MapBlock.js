@@ -19,14 +19,13 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 class MapBlock extends React.Component {
 
   static propTypes = {
-    _onMapRegionChange: PropTypes.func
+    mapRegion: PropTypes.object,
+    isRegionUpdating: PropTypes.bool,
+    position: PropTypes.object,
+    actions: PropTypes.object
   };
   static defaultProps = {};
-  state = {
-    region: {},
-    startMarker: {},
-    markers: []
-  };
+  state = {};
 
   componentDidMount() {
     this.loadInitialPosition();
@@ -42,31 +41,39 @@ class MapBlock extends React.Component {
 
   setInitialPosition(position) {
     let coords = position.coords;
-    this.setState({
-      region: {
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      },
-      startMarker: {
-        latitude: coords.latitude,
-        longitude: coords.longitude
-      },
+    const { actions } = this.props;
+    
+    actions.setMapRegion({
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA
+    });
+
+    actions.setPosition({
+      latitude: coords.latitude,
+      longitude: coords.longitude,
     });
   }
 
   _onRegionChange(region) {
-    this.props._onMapRegionChange(true);
-    this.setState({ region });
+    const { actions, isRegionUpdating } = this.props;
+    if( !isRegionUpdating ) {
+      actions.setRegionUpdating(true);
+    } 
   }
 
   _onRegionChangeComplete(region) {
-    this.props._onMapRegionChange(false);
+    const { actions } = this.props;
+    actions.setMapRegion(region);
+    actions.setRegionUpdating(false);
   }
 
   render() {
-    if( typeof(this.state.region.latitude) === 'undefined' ) {
+    const { position, mapRegion } = this.props;
+
+    if( typeof(mapRegion.latitude) === 'undefined' ||
+      typeof(position.latitude) === 'undefined' ) {
       //fallback to using ip and show google address bar
       return null;
     }
@@ -78,7 +85,7 @@ class MapBlock extends React.Component {
         showsUserLocation={true}
         ref="map"
         style={styles.map}
-        region={this.state.region}
+        region={mapRegion}
 
         onRegionChange={this._onRegionChange.bind(this)}
         onRegionChangeComplete={this._onRegionChangeComplete.bind(this)}
@@ -86,7 +93,7 @@ class MapBlock extends React.Component {
         <MapView.Marker draggable ref="m1"
           onDragStop={(e) => this.setState({ startMarker: e.nativeEvent.coordinate })}
           onDragStart={(e) => this.refs.m1.showCallout()}
-          coordinate={this.state.startMarker}
+          coordinate={{...position}}
         >
           <MapView.Callout>
             <View>
