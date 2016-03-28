@@ -6,9 +6,9 @@ const {
   Text,
   PropTypes
 } = React;
-
+import Icon from 'react-native-vector-icons/Ionicons';
 import MapView from 'react-native-maps';
-import StartPin from './StartPin';
+import Pin from './Pin';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -66,11 +66,23 @@ class MapBlock extends React.Component {
 
   _onRegionChangeComplete(region) {
     this.props.setMapRegion(region);
+    this.props.setPosition({latitude: region.latitude, longitude: region.longitude});
     this.props.setRegionUpdating(false);
   }
 
+  renderMarker() {
+    const { position } = this.props;
+    return(
+      <MapView.Marker ref="m1"
+        style={{}}
+        pinColor={'green'}
+        coordinate={{...position}}
+      />
+    );
+  }
+
   render() {
-    const { position, mapRegion } = this.props;
+    const { mapRegion, position } = this.props;
 
     if( typeof(mapRegion.latitude) === 'undefined' ||
       typeof(position.latitude) === 'undefined' ) {
@@ -79,41 +91,30 @@ class MapBlock extends React.Component {
     }
 
     return (
-      <MapView
-        showsCompass={true}
-        showsScale={true}
-        showsUserLocation={true}
-        ref="map"
-        style={styles.map}
-        region={mapRegion}
+      <View style={styles.map}>
+        <MapView
+          showsCompass={true}
+          showsScale={true}
+          // showsUserLocation={true}
+          ref="map"
+          style={styles.map}
+          region={mapRegion}
 
-        onRegionChange={this._onRegionChange.bind(this)}
-        onRegionChangeComplete={this._onRegionChangeComplete.bind(this)}
-      >
-        <MapView.Marker draggable ref="m1"
-          onDragStop={(e) => this.setState({ startMarker: e.nativeEvent.coordinate })}
-          onDragStart={(e) => this.refs.m1.showCallout()}
-          coordinate={{...position}}
+          onRegionChange={this._onRegionChange.bind(this)}
+          onRegionChangeComplete={this._onRegionChangeComplete.bind(this)}
         >
-          <MapView.Callout>
-            <View>
-                <Text>Your car is 3s away</Text>
-              </View>
-          </MapView.Callout>
-        </MapView.Marker>
-      </MapView>
+        {/*this.renderMarker()*/}
+        </MapView>
+
+      <Pin />
+      </View>
     );
   }
 };
 
 var styles = StyleSheet.create({
  map: {
-  // flex: 1
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
+  flex: 1
  }
 });
 

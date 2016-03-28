@@ -28,7 +28,7 @@ class Home extends React.Component {
   };
 
   render() {
-    console.log('Home', this.props)
+    // console.log('Home', this.props)
     const { actions, location, journey } = this.props;
     return (
       <View style={styles.container}>
@@ -64,13 +64,7 @@ class Home extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    flex: 1
   },
 
   locationIcon: {

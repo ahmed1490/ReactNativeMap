@@ -9,8 +9,7 @@ import * as JourneyActions from '../actions/journey'
 class Main extends Component {
   render() {
     // const { user, location, journey, actions } = this.props;
-
-    console.log('Main', this.props)
+    // console.log('Main', this.props)
     return (
       <Home {...this.props} />
     )
