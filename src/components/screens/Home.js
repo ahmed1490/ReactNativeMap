@@ -28,42 +28,32 @@ class Home extends React.Component {
   };
 
   render() {
-    // console.log('Home', this.props)
+    console.log('Home', this.props)
+    const { actions, location, journey } = this.props;
     return (
       <View style={styles.container}>
         <MapBlock
-          {...this.props.location}
-          actions={this.props.actions}
-          _onMapRegionChange={this._setMapRegionChanging.bind(this)} />
+          {...location}
+          position={journey.position}
+
+          setPosition={actions.journey.setPosition}
+          setMapRegion={actions.location.setMapRegion}
+          setRegionUpdating={actions.location.setRegionUpdating}
+        />
 
         <MyLocationBtn />
 
         <ActionCard
-          actions={this.props.actions}
-          position={this.props.location.isRegionUpdating}
-          onPrimaryLocationClick={this._openPlacesCard.bind(this)}
+          isRegionUpdating={location.isRegionUpdating}
+          journey={journey}
+
+          setOptionsVisible={actions.journey.setOptionsVisible}
         />
         <PlacesCard
           isCardOpen={this.state.isPlacesCardOpen}
         />
       </View>
     );
-  }
-
-  _setMapRegionChanging(isMoving) {
-    if( this.state.isMapRegionChanging === isMoving )
-      return;
-
-    this.setState({ isMapRegionChanging: isMoving });
-
-    Animated.spring(
-      this.state.cardPartialHide,
-      {
-        toValue: isMoving ? 0 : 1,
-        friction: 7
-      }
-    ).start();
-    // console.log('isMoving', isMoving)
   }
 
   _openPlacesCard() {

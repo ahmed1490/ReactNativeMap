@@ -1,19 +1,17 @@
 import { 
   SET_MAP_REGION,
-  SET_POSITION,
+  // SET_POSITION,
   SET_REGION_UPDATING
 } from '../actions/location'
 
 
-
-// User state in Redux
+// state in Redux
 // location: {...}
 
 const initialState = {
     mapRegion: {},
     isRegionUpdating: false,
-    position: {},
-    
+    // position: {}
 };
 
 export default function setLocation(state = initialState, action) {
@@ -24,11 +22,11 @@ export default function setLocation(state = initialState, action) {
         mapRegion: action.payload
       }
 
-    case SET_POSITION:
-      return {
-        ...state,
-        position: action.payload
-      }
+    // case SET_POSITION:
+    //   return {
+    //     ...state,
+    //     position: action.payload
+    //   }
 
     case SET_REGION_UPDATING:
       return {

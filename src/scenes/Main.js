@@ -4,27 +4,29 @@ import { connect } from 'react-redux'
 import Home from '../components/screens/Home'
 
 import * as LocationActions from '../actions/location'
+import * as JourneyActions from '../actions/journey'
 
 class Main extends Component {
   render() {
-    const { currentUser, location, actions } = this.props;
+    // const { user, location, journey, actions } = this.props;
 
+    console.log('Main', this.props)
     return (
-      <Home location={location} actions={actions} />
+      <Home {...this.props} />
     )
   }
 }
 
 function mapStateToProps(state) {
-  return {
-    currentUser: state.currentUser,
-    location: state.location
-  }
+  return state;
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(LocationActions, dispatch)
+    actions: {
+      location: bindActionCreators(LocationActions, dispatch),
+      journey: bindActionCreators(JourneyActions, dispatch)
+    }
   }
 }
 

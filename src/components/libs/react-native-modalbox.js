@@ -372,7 +372,6 @@ var ModalBox = React.createClass({
 
     if (!visible) return <View/>
 
-    console.log('render')
     return (
       <View style={[styles.transparent, styles.absolute]} pointerEvents={'box-none'} onLayout={this.onContainerLayout}>
         {backdrop}

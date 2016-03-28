@@ -22,7 +22,10 @@ class MapBlock extends React.Component {
     mapRegion: PropTypes.object,
     isRegionUpdating: PropTypes.bool,
     position: PropTypes.object,
-    actions: PropTypes.object
+
+    setPosition: PropTypes.func,
+    setMapRegion: PropTypes.func,
+    setRegionUpdating: PropTypes.func
   };
   static defaultProps = {};
   state = {};
@@ -41,32 +44,29 @@ class MapBlock extends React.Component {
 
   setInitialPosition(position) {
     let coords = position.coords;
-    const { actions } = this.props;
     
-    actions.setMapRegion({
+    this.props.setMapRegion({
       latitude: coords.latitude,
       longitude: coords.longitude,
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     });
 
-    actions.setPosition({
+    this.props.setPosition({
       latitude: coords.latitude,
       longitude: coords.longitude,
     });
   }
 
   _onRegionChange(region) {
-    const { actions, isRegionUpdating } = this.props;
-    if( !isRegionUpdating ) {
-      actions.setRegionUpdating(true);
+    if( this.props.isRegionUpdating === false ) {
+      this.props.setRegionUpdating(true);
     } 
   }
 
   _onRegionChangeComplete(region) {
-    const { actions } = this.props;
-    actions.setMapRegion(region);
-    actions.setRegionUpdating(false);
+    this.props.setMapRegion(region);
+    this.props.setRegionUpdating(false);
   }
 
   render() {

@@ -20,30 +20,38 @@ const cardSizeClass = {
 class ActionCard extends React.Component {
 
   static propTypes = {
-    cardPartialHide: PropTypes.object,
-    onPrimaryLocationClick: PropTypes.func
+    isRegionUpdating: PropTypes.bool,
+    journey: PropTypes.object,
+
+    setOptionsVisible: PropTypes.func,
+
+    cardPartialHide: PropTypes.object
   };
   static defaultProps = {
+    cardPartialHide: new Animated.Value(0)
   };
-  state = { 
-    showMoreOptions: false
-  };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.state.showMoreOptions !== nextState.showMoreOptions ;
-  }
+  state = {};
 
   componentDidMount() {
     // setTimeout(() => this.refs.actionCard.open(), 1000);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    Animated.spring(
+      this.props.cardPartialHide,
+      {
+        toValue: this.props.isRegionUpdating ? 0 : 1,
+        friction: 7
+      }
+    ).start();
+  }
+
   _showMoreOptions(event) {
-    console.log('showmore options')
-    this.setState({showMoreOptions: true});
+    this.props.setOptionsVisible(true);
   }
 
   _hideMoreOptions(event) {
-    this.setState({showMoreOptions: false});
+    this.props.setOptionsVisible(false);
   }
 
   _handlePress(event) {
@@ -51,17 +59,18 @@ class ActionCard extends React.Component {
   }
 
   render() {
-    const cardWithOptions = this.state.showMoreOptions ? styles.cardWithOptions: '';
-    const optionButtonVisibleStyle = this.state.showMoreOptions ? styles.hidden : '';
-    const optionsVisibleStyle = this.state.showMoreOptions ? '' : styles.hidden;
+    const isOptionsVisible = this.props.journey.isOptionsVisible;
+    const cardWithOptions = isOptionsVisible ? styles.cardWithOptions: '';
+    const optionButtonVisibleStyle = isOptionsVisible ? styles.hidden : '';
+    const optionsVisibleStyle = isOptionsVisible ? '' : styles.hidden;
 
     const BContent = <BackdropContent onBackClick={this._hideMoreOptions.bind(this)} />
 
-    console.log('actioncard')
+    // console.log('actioncard')
     return (
       <Modal style={[styles.card, cardWithOptions, {opacity: this.props.cardPartialHide}]} ref={"actionCard"}
         isOpen={true} position={"bottom"} animationDuration={200}
-        backdrop={this.state.showMoreOptions} backdropPressToClose={false} backdropContent={BContent}
+        backdrop={isOptionsVisible} backdropPressToClose={false} backdropContent={BContent}
         onBackdropPress={this._hideMoreOptions.bind(this)}>
 
         <Button
@@ -71,7 +80,9 @@ class ActionCard extends React.Component {
         >
           <Icon name="ios-location-outline" size={24} style={[styles.button_image]} />
           <View style={[styles.button_label, styles.vertical_center, styles.lightBottomBorder]}>
-            <Text style={[styles.button_text]}>Rosenthalar Platz</Text>
+            <Text style={[styles.button_text]}>
+              {this.props.journey.start}
+            </Text>
           </View>
         </Button>
 
