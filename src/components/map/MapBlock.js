@@ -12,7 +12,7 @@ import Pin from './Pin';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.008;
+const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
