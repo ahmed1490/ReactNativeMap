@@ -37,8 +37,8 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-        new VectorIconsPackage(),
-        new AirPackage()
+            new VectorIconsPackage(),
+            new AirPackage()
         );
     }
 }
