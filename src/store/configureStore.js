@@ -2,6 +2,8 @@ import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import { createStore, applyMiddleware, compose } from 'redux'
 import reducer from '../reducers/index'
+import Reactotron from 'reactotron'
+
 // import devTools from 'remote-redux-devtools'
 
 const loggerMiddleware = createLogger({
@@ -10,17 +12,22 @@ const loggerMiddleware = createLogger({
 })
 const combineMiddleware = applyMiddleware(
   loggerMiddleware, 
-  thunkMiddleware
+  thunkMiddleware,
+  Reactotron.reduxMiddleware
 )
 const enhancer = compose(
-  combineMiddleware
+  combineMiddleware,
+  // Reactotron.storeEnhancer()
   // devTools()  // To use remote dev tools enable this and the import devTools
 )
 
 export default function configureStore(initialState) {
-  return createStore(
+  const store = createStore(
     reducer, 
     initialState,
     enhancer
-  )
+  );
+
+  Reactotron.addReduxStore(store) ;
+  return store;
 }
