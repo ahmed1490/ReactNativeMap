@@ -21,6 +21,7 @@ class MapBlock extends React.Component {
   static propTypes = {
     mapRegion: PropTypes.object,
     isRegionUpdating: PropTypes.bool,
+    cars: PropTypes.array,
     position: PropTypes.object,
 
     setPosition: PropTypes.func,
@@ -103,7 +104,15 @@ class MapBlock extends React.Component {
           onRegionChange={this._onRegionChange.bind(this)}
           onRegionChangeComplete={this._onRegionChangeComplete.bind(this)}
         >
-        {/*this.renderMarker()*/}
+          {/*this.renderMarker()*/}
+          {this.props.cars.map(car => (
+            <MapView.Marker.Animated key={car.id}
+              coordinate={{latitude: car.latitude, longitude: car.longitude}}
+              title={car.duration}
+            >
+              <Icon name="android-car" size={24} style={{}} />
+            </MapView.Marker.Animated>
+          ))}
         </MapView>
 
       <Pin />

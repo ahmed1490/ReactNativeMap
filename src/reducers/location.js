@@ -12,6 +12,10 @@ const initialState = {
     mapRegion: {},
     isRegionUpdating: false,
     // position: {}
+    cars: [
+      {id: 1, latitude: 37.33260575262121, longitude: -122.0307375036871, duration: '3 mins'},
+      {id: 2, latitude: 37.33340172650372, longitude: -122.0321321962561, duration: '6 mins'}
+    ]
 };
 
 export default function setLocation(state = initialState, action) {
