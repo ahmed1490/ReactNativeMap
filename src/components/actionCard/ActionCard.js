@@ -66,14 +66,14 @@ class ActionCard extends React.Component {
 
     const BContent = <BackdropContent onBackClick={this._hideMoreOptions.bind(this)} />
 
-    const modalHeight = this.props.cardPartialHide.interpolate({
-      inputRange: [0, 1],
-      outputRange: [50, 160]
-    });
+    // const modalHeight = this.props.cardPartialHide.interpolate({
+    //   inputRange: [0, 1],
+    //   outputRange: [50, 160]
+    // });
 
     // console.log('actioncard')
     return (
-      <Modal style={[styles.card, {height: modalHeight}, cardWithOptions]} ref={"actionCard"}
+      <Modal style={[styles.card, {opacity: this.props.cardPartialHide}, cardWithOptions]} ref={"actionCard"}
         isOpen={true} position={"bottom"} animationDuration={200}
         backdrop={isOptionsVisible} backdropPressToClose={false} backdropContent={BContent}
         onBackdropPress={this._hideMoreOptions.bind(this)}>
