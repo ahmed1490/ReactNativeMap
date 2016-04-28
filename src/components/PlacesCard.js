@@ -10,7 +10,7 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 
 const PlacesCard = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: fundsdction() {
     return {
       homePlace : {descriptsson: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }},
       workPlace : {description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }}
