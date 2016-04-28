@@ -12,7 +12,7 @@ const PlacesCard = React.createClass({
 
   getInitialState: function() {
     return {
-      homePlace : {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }},
+      homePlace : {descriptsson: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }},
       workPlace : {description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }}
     };
   },
