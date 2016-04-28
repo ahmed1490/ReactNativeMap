@@ -41,7 +41,10 @@ class Home extends React.Component {
           setRegionUpdating={actions.location.setRegionUpdating}
         />
 
-        <MyLocationBtn />
+        <MyLocationBtn
+          setPosition={actions.journey.setPosition}
+          setMapRegion={actions.location.setMapRegion}
+        />
 
         <ActionCard
           isRegionUpdating={location.isRegionUpdating}
