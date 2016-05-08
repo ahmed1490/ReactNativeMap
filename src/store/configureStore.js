@@ -11,8 +11,8 @@ const loggerMiddleware = createLogger({
   // stateTransformer: state => state.toJS() // Transformation necessary because of Immutable.js
 })
 const combineMiddleware = applyMiddleware(
-  loggerMiddleware, 
   thunkMiddleware,
+  loggerMiddleware, 
   Reactotron.reduxMiddleware
 )
 const enhancer = compose(

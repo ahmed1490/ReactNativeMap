@@ -21,9 +21,12 @@ class ActionCard extends React.Component {
 
   static propTypes = {
     isRegionUpdating: PropTypes.bool,
-    journey: PropTypes.object,
+    isOptionsVisible: PropTypes.bool,
+    start: PropTypes.object,
+    end: PropTypes.object,
 
     setOptionsVisible: PropTypes.func,
+    setLocationSelection: PropTypes.func,
 
     cardPartialHide: PropTypes.object
   };
@@ -59,7 +62,7 @@ class ActionCard extends React.Component {
   }
 
   render() {
-    const isOptionsVisible = this.props.journey.isOptionsVisible;
+    const isOptionsVisible = this.props.isOptionsVisible;
     const cardWithOptions = isOptionsVisible ? styles.cardWithOptions: '';
     const optionButtonVisibleStyle = isOptionsVisible ? styles.hidden : '';
     const optionsVisibleStyle = isOptionsVisible ? '' : styles.hidden;
@@ -81,12 +84,12 @@ class ActionCard extends React.Component {
         <Button
           containerStyle={[]}
           styleDisabled={{color: 'grey'}}
-          onPress={this.props.onPrimaryLocationClick}
+          onPress={() => this.props.setLocationSelection('start')}
         >
           <Icon name="ios-location-outline" size={24} style={[styles.button_image]} />
           <View style={[styles.button_label, styles.vertical_center, styles.lightBottomBorder]}>
             <Text style={[styles.button_text]}>
-              {this.props.journey.start}
+              {this.props.start.name}
             </Text>
           </View>
         </Button>
@@ -105,11 +108,11 @@ class ActionCard extends React.Component {
         <Button
           containerStyle={[styles.darkBottomBorder, optionsVisibleStyle]}
           styleDisabled={{color: 'grey'}}
-          onPress={this._handlePress}
+          onPress={() => this.props.setLocationSelection('end')}
         >
           <Icon name="ios-gear-outline" size={24} style={[styles.button_image]} />
           <View style={[styles.button_label, styles.vertical_center]}>
-            <Text style={[styles.button_text]}>Destination</Text>
+            <Text style={[styles.button_text]}>{this.props.end.name || 'Destination'}</Text>
           </View>
         </Button>
 

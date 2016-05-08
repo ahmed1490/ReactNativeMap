@@ -22,11 +22,10 @@ class MapBlock extends React.Component {
     mapRegion: PropTypes.object,
     isRegionUpdating: PropTypes.bool,
     cars: PropTypes.array,
-    position: PropTypes.object,
 
-    setPosition: PropTypes.func,
     setMapRegion: PropTypes.func,
-    setRegionUpdating: PropTypes.func
+    setRegionUpdating: PropTypes.func,
+    setStart: PropTypes.func
   };
   static defaultProps = {};
   state = {};
@@ -44,20 +43,20 @@ class MapBlock extends React.Component {
   }
 
   setInitialPosition(position) {
-    let coords = position.coords;
-    
-    this.props.setMapRegion({
+    const coords = position.coords;
+    const location = {
       latitude: coords.latitude,
       longitude: coords.longitude,
+    };
+
+    this.props.setMapRegion({
+      ...location,
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     });
 
-    this.props.setPosition({
-      latitude: coords.latitude,
-      longitude: coords.longitude,
-    });
-  }
+    this.props.setStart(location);
+  } 
 
   _onRegionChange(region) {
     if( this.props.isRegionUpdating === false ) {
@@ -66,8 +65,9 @@ class MapBlock extends React.Component {
   }
 
   _onRegionChangeComplete(region) {
+    // console.log('change complete---', region)
+    this.props.setStart({latitude: region.latitude, longitude: region.longitude});
     this.props.setMapRegion(region);
-    this.props.setPosition({latitude: region.latitude, longitude: region.longitude});
     this.props.setRegionUpdating(false);
   }
 
@@ -83,10 +83,11 @@ class MapBlock extends React.Component {
   }
 
   render() {
-    const { mapRegion, position } = this.props;
+    const { mapRegion } = this.props;
 
-    if( typeof(mapRegion.latitude) === 'undefined' ||
-      typeof(position.latitude) === 'undefined' ) {
+    if( typeof(mapRegion.latitude) === 'undefined'
+      // || typeof(position.latitude) === 'undefined'
+      ) {
       //fallback to using ip and show google address bar
       return null;
     }

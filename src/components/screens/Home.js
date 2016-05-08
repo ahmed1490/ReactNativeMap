@@ -22,9 +22,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 class Home extends React.Component {
 
   state = { 
-    isPlacesCardOpen: false,
-    isMapRegionChanging: false,
-    cardPartialHide: new Animated.Value(1)
   };
 
   render() {
@@ -34,33 +31,35 @@ class Home extends React.Component {
       <View style={styles.container}>
         <MapBlock
           {...location}
-          position={journey.position}
 
-          setPosition={actions.journey.setPosition}
           setMapRegion={actions.location.setMapRegion}
           setRegionUpdating={actions.location.setRegionUpdating}
+          setStart={actions.journey.setStart}
         />
 
         <MyLocationBtn
-          setPosition={actions.journey.setPosition}
           setMapRegion={actions.location.setMapRegion}
+          setStart={actions.journey.setStart}
         />
 
         <ActionCard
           isRegionUpdating={location.isRegionUpdating}
-          journey={journey}
+          isOptionsVisible={journey.isOptionsVisible}
+          start={journey.start}
+          end={journey.end}
 
           setOptionsVisible={actions.journey.setOptionsVisible}
+          setLocationSelection={actions.journey.setLocationSelection}
         />
         <PlacesCard
-          isCardOpen={this.state.isPlacesCardOpen}
+          locationSelection={journey.locationSelection}
+
+          setLocationSelection={actions.journey.setLocationSelection}
+          setStart={actions.journey.setStart}
+          setEnd={actions.journey.setEnd}
         />
       </View>
     );
-  }
-
-  _openPlacesCard() {
-    this.setState({ isPlacesCardOpen: true });
   }
 
 };
