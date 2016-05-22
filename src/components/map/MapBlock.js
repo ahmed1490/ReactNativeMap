@@ -6,6 +6,7 @@ const {
   Text,
   PropTypes
 } = React;
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MapView from 'react-native-maps';
 import Pin from './Pin';
@@ -19,8 +20,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 class MapBlock extends React.Component {
 
   static propTypes = {
-    mapRegion: PropTypes.object,
-    isRegionUpdating: PropTypes.bool,
+    // mapRegion: PropTypes.object,
+    // isRegionUpdating: PropTypes.bool,
     cars: PropTypes.array,
 
     setMapRegion: PropTypes.func,
@@ -28,9 +29,11 @@ class MapBlock extends React.Component {
     setStart: PropTypes.func
   };
   static defaultProps = {};
-  state = {};
+  state = {
+    mapRegion: {}
+  };
 
-  componentDidMount() {
+  componentWillMount() {
     this.loadInitialPosition();
   }
 
@@ -49,26 +52,34 @@ class MapBlock extends React.Component {
       longitude: coords.longitude,
     };
 
-    this.props.setMapRegion({
+    // this.props.setMapRegion({
+    //   ...location,
+    //   latitudeDelta: LATITUDE_DELTA,
+    //   longitudeDelta: LONGITUDE_DELTA
+    // });
+
+    this.setState({mapRegion: {
       ...location,
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
-    });
+    }});
 
     this.props.setStart(location);
   } 
 
   _onRegionChange(region) {
-    if( this.props.isRegionUpdating === false ) {
-      this.props.setRegionUpdating(true);
-    } 
+    this.setState({mapRegion: region});
+    // if( this.props.isRegionUpdating === false ) {
+      // this.props.setRegionUpdating(true);
+    // } 
   }
 
   _onRegionChangeComplete(region) {
-    // console.log('change complete---', region)
+    console.log('CHANGE COMPLETE---', region)
+    // this.props.setMapRegion(region);
+    this.setState({mapRegion: region});
     this.props.setStart({latitude: region.latitude, longitude: region.longitude});
-    this.props.setMapRegion(region);
-    this.props.setRegionUpdating(false);
+    // this.props.setRegionUpdating(false);
   }
 
   renderMarker() {
@@ -83,7 +94,8 @@ class MapBlock extends React.Component {
   }
 
   render() {
-    const { mapRegion } = this.props;
+    console.log('render again')
+    const { mapRegion } = this.state;
 
     if( typeof(mapRegion.latitude) === 'undefined'
       // || typeof(position.latitude) === 'undefined'

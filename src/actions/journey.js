@@ -51,7 +51,7 @@ function getReverseGeocode(location, stateLocationFn, callback) {
       const { latitude, longitude } = stateLocationFn();
 
       if ( latitude != location.latitude || longitude != location.longitude ) {  //check its not changed again
-        console.log('skipped updating', location, latitude, longitude);
+        // console.log('skipped updating', location, latitude, longitude);
         return;
       }
 

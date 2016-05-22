@@ -30,10 +30,10 @@ class Home extends React.Component {
     return (
       <View style={styles.container}>
         <MapBlock
-          {...location}
+          cars={location.cars}
 
-          setMapRegion={actions.location.setMapRegion}
-          setRegionUpdating={actions.location.setRegionUpdating}
+          // setMapRegion={actions.location.setMapRegion}
+          // setRegionUpdating={actions.location.setRegionUpdating}
           setStart={actions.journey.setStart}
         />
 
