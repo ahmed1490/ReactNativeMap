@@ -31,13 +31,7 @@ class MyLocationBtn extends React.Component {
           latitude: coords.latitude,
           longitude: coords.longitude,
         };
-
-        this.props.setMapRegion({
-          ...location,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA
-        });
-
+        
         this.props.setStart(location);
       },
       (error) => console.error(error)

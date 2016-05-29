@@ -31,14 +31,12 @@ class Home extends React.Component {
       <View style={styles.container}>
         <MapBlock
           cars={location.cars}
+          startPosition={journey.startPosition}
 
-          // setMapRegion={actions.location.setMapRegion}
-          // setRegionUpdating={actions.location.setRegionUpdating}
           setStart={actions.journey.setStart}
         />
 
         <MyLocationBtn
-          setMapRegion={actions.location.setMapRegion}
           setStart={actions.journey.setStart}
         />
 

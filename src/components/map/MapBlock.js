@@ -6,7 +6,7 @@ const {
   Text,
   PropTypes
 } = React;
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+// import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MapView from 'react-native-maps';
 import Pin from './Pin';
@@ -20,12 +20,9 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 class MapBlock extends React.Component {
 
   static propTypes = {
-    // mapRegion: PropTypes.object,
-    // isRegionUpdating: PropTypes.bool,
     cars: PropTypes.array,
+    startPosition: PropTypes.object,
 
-    setMapRegion: PropTypes.func,
-    setRegionUpdating: PropTypes.func,
     setStart: PropTypes.func
   };
   static defaultProps = {};
@@ -34,52 +31,40 @@ class MapBlock extends React.Component {
   };
 
   componentWillMount() {
-    this.loadInitialPosition();
+    const startPosition = this.props.startPosition;
+    startPosition && startPosition.latitude ? this.setMapRegionToPosition(startPosition) : this.loadInitialPosition();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.startPosition.latitude !== this.props.startPosition.latitude) {
+      this.setMapRegionToPosition(nextProps.startPosition);
+    }
   }
 
   loadInitialPosition() {
     // https://github.com/facebook/react-native/commit/13f2aea85f8db9eec3bd42b66f9dc868e0d5a24e
     navigator.geolocation.getCurrentPosition(
-      (pos) => this.setInitialPosition(pos),
+      (pos) => this.props.setStart({latitude:pos.coords.latitude, longitude: pos.coords.longitude}),
       (error) => console.error(error)
     );
   }
 
-  setInitialPosition(position) {
-    const coords = position.coords;
-    const location = {
-      latitude: coords.latitude,
-      longitude: coords.longitude,
-    };
-
-    // this.props.setMapRegion({
-    //   ...location,
-    //   latitudeDelta: LATITUDE_DELTA,
-    //   longitudeDelta: LONGITUDE_DELTA
-    // });
-
+  setMapRegionToPosition(coords) {
     this.setState({mapRegion: {
-      ...location,
+      ...coords,
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }});
-
-    this.props.setStart(location);
-  } 
+  }
 
   _onRegionChange(region) {
     this.setState({mapRegion: region});
-    // if( this.props.isRegionUpdating === false ) {
-      // this.props.setRegionUpdating(true);
-    // } 
   }
 
   _onRegionChangeComplete(region) {
-    console.log('CHANGE COMPLETE---', region)
-    // this.props.setMapRegion(region);
+    // console.log('CHANGE COMPLETE---', region)
     this.setState({mapRegion: region});
     this.props.setStart({latitude: region.latitude, longitude: region.longitude});
-    // this.props.setRegionUpdating(false);
   }
 
   renderMarker() {
@@ -94,7 +79,6 @@ class MapBlock extends React.Component {
   }
 
   render() {
-    console.log('render again')
     const { mapRegion } = this.state;
 
     if( typeof(mapRegion.latitude) === 'undefined'

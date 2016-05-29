@@ -48,11 +48,15 @@ class PlacesCard extends React.Component {
       name: locationDetails.name,
       locality: locationDetails.vicinity
     };
+    const locationData = {
+      latitude: locationDetails.geometry.location.lat,
+      longitude: locationDetails.geometry.location.lng
+    }
     if(this.props.locationSelection === 'start') {
-      this.props.setStart(locationDetails.geometry.location, placeData);
+      this.props.setStart(locationData, placeData);
     }
     else if(this.props.locationSelection === 'end') {
-      this.props.setEnd(locationDetails.geometry.location, placeData);
+      this.props.setEnd(locationData, placeData);
     }
   }
 
