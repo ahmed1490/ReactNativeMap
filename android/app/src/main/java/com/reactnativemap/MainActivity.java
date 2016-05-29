@@ -1,9 +1,9 @@
 package com.reactnativemap;
 
 import com.facebook.react.ReactActivity;
-import com.devfd.RNGeocoder.RNGeocoderPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.AirMaps.AirPackage;
+import com.devfd.RNGeocoder.RNGeocoderPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -38,9 +38,9 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new RNGeocoderPackage(),
             new VectorIconsPackage(),
-            new AirPackage()
+            new AirPackage(),
+            new RNGeocoderPackage()
         );
     }
 }
